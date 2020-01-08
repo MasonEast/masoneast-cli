@@ -1,0 +1,37 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "masoneast": "./bin/index.js"
+  },
+  "scripts": {},
+  "keywords": [
+    "mason",
+    "masoneast",
+    "cli",
+    "cool"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/springHyc/masoneast-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/springHyc/masoneast-cli/issues"
+  },
+  "homepage": "https://github.com/springHyc/masoneast-cli#readme",
+  "author": "MasonEast",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
+    "cross-spawn": "^7.0.1",
+    "download": "^7.1.0",
+    "fs-extra": "^8.1.0",
+    "git-clone": "^0.1.0",
+    "metalsmith": "^2.3.0",
+    "ora": "^4.0.3",
+    "rimraf": "^3.0.0",
+    "user-home": "^2.0.0"
+  }
+}
