@@ -17,7 +17,7 @@ const rm = require('rimraf').sync
 const Metalsmith = require('metalsmith')
 
 const tmpPath = path.join(home, '.masoneast-template')          //将模板下载到本地的路径， 方便后续初始化项目时直接从本地copy
-const tmpUrl = 'https://github.com/MasonEast/masoneast-cli.git' //项目模板的git地址
+const tmpUrl = 'https://github.com/MasonEast/masoneast-template.git' //项目模板的git地址
 const projectPath = (name) => path.resolve(name)                //创建项目的路径
 //commander:
 //使用方括号声明，即传值不是必须的
