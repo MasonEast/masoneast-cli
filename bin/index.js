@@ -26,7 +26,7 @@ const inquirer = require('inquirer')                        //询问问题， �
 const async = require('async')                              //异步处理
 const Handlebars = require('handlebars')                    //模板引擎
 const render = require('consolidate').handlebars.render     //根据模板引擎进行页面填充
-const match = require('minimatch')
+const match = require('minimatch')                          //字段匹配
 const options = require('./options')
 
 // register handlebars helper

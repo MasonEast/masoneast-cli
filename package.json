@@ -1,25 +1,25 @@
 {
-  "name": "cli",
-  "version": "1.0.0",
+  "name": "masoneast-cli",
+  "version": "1.0.2",
   "description": "",
   "bin": {
-    "masoneast": "./bin/index.js"
+    "masoneast": "bin/index.js"
   },
   "scripts": {},
   "keywords": [
-    "mason",
+    "react",
     "masoneast",
     "cli",
-    "cool"
+    "dva"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/springHyc/masoneast-cli.git"
+    "url": "git+https://github.com/MasonEast/masoneast-cli.git"
   },
   "bugs": {
-    "url": "https://github.com/springHyc/masoneast-cli/issues"
+    "url": "https://github.com/MasonEast/masoneast-cli/issues"
   },
-  "homepage": "https://github.com/springHyc/masoneast-cli#readme",
+  "homepage": "https://github.com/MasonEast/masoneast-cli#readme",
   "author": "MasonEast",
   "license": "ISC",
   "dependencies": {
@@ -38,5 +38,6 @@
     "ora": "^4.0.3",
     "rimraf": "^3.0.0",
     "user-home": "^2.0.0"
-  }
+  },
+  "_resolved": "https://registry.npm.taobao.org/masoneast-cli/download/masoneast-cli-1.0.2.tgz"
 }
