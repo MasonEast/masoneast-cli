@@ -2,15 +2,14 @@
 /**
  * 实现功能：
  * 
- * 1. 从git上download和clone项目脚手架
- * 2. 保存脚手架到本地，方便离线使用
- * 3. 询问问题， 按用户需求定制脚手架 
+ * 1. 从git上download和clone项目模板
+ * 2. 保存模板到本地，方便离线使用
+ * 3. 询问问题， 按用户需求定制模板 
  * 
  */
 const chalk = require('chalk');                             //字体颜色
 const program = require('commander');                       //命令
 const packageConfig = require('../package');
-const child_process = require('child_process');
 const path = require('path')
 const ora = require('ora')                                 //旋转spiner
 const exists = require('fs').existsSync
@@ -38,7 +37,7 @@ Handlebars.registerHelper('if_eq', function (a, b, opts) {
 })
 
 const tmpPath = path.join(home, '.masoneast-template')          //将模板下载到本地的路径， 方便后续初始化项目时直接从本地copy
-const tmpUrl = 'https://github.com/MasonEast/masoneast-template.git' //项目模板的git地址
+const tmpUrl = 'https://github.com/MasonEast/masoneast-template.git' //项目模板的git clone地址
 const projectPath = (name = 'react-project') => path.resolve(name)                //创建项目的路径
 //commander:
 //使用方括号声明，即传值不是必须的
@@ -57,9 +56,10 @@ program
     .command('init [project-name]')
     .description('create a project')
     .option("-c, --clone", `it will clone from ${tmpUrl}`)
+    .option('--offline', 'use cached template')
     .action(function (name, options) {
         console.log('we are try to create "%s"....', name);
-        downloadAndGenerate(name, options.clone)
+        downloadAndGenerate(name, options)
     }).on('--help', function () {
         console.log('');
         console.log('Examples:');
@@ -70,29 +70,33 @@ program
 
 program.parse(process.argv)
 
-function downloadAndGenerate (name, clone) {
+function downloadAndGenerate (name, {clone, offline}) {
+    if(offline && exists(tmpPath)){                                           //离线使用， 前提是本地有模板
+        generate(name, tmpPath, projectPath(name), err => {
+            if (err) {
+                console.log(err)
+                return
+            }
+            console.log()
+            logger.success('Generated "%s".', name)
+        })
+        return 
+    }
+
     const spinner = ora('downloading template')
-    // spinner.start()
-    // if (exists(tmpPath)) rm(tmpPath)                        //如果之前本地有则移除
-    // download(name, clone, err => {
-    //     spinner.stop()
-    //     if (err) console.error(chalk.red('Failed to download repo ' + name + ': ' + err.message.trim()))
-    //     generate(name, tmpPath, projectPath(name), err => {
-    //         if (err) {
-    //             console.log(err)
-    //             return
-    //         }
-    //         console.log()
-    //         logger.success('Generated "%s".', name)
-    //     })
-    // })
-    generate(name, tmpPath, projectPath(name), err => {
-        if (err) {
-            console.log(err)
-            return
-        }
-        console.log()
-        logger.success('Generated "%s".', name)
+    spinner.start()
+    if (exists(tmpPath)) rm(tmpPath)                        //如果之前本地有则移除
+    download(name, clone, err => {
+        spinner.stop()
+        if (err) console.error(chalk.red('Failed to download repo ' + name + ': ' + err.message.trim()))
+        generate(name, tmpPath, projectPath(name), err => {
+            if (err) {
+                console.log(err)
+                return
+            }
+            console.log()
+            logger.success('Generated "%s".', name)
+        })
     })
 }
 
@@ -104,7 +108,9 @@ function download (name, clone, fn) {
             fn()
         })
     } else {
-        downloadUrl(tmpUrl, tmpPath, { extract: true, strip: 1, mode: '666', headers: { accept: 'application/zip' } })
+        const url = tmpUrl.replace(/\.git*/, '') + '/archive/master.zip'
+        console.log(url)
+        downloadUrl(url, tmpPath, { extract: true, strip: 1, mode: '666', headers: { accept: 'application/zip' } })
             .then(function (data) {
                 fn()
             })
